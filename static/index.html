@@ -1,0 +1,113 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>music partner</title>
+<style>
+:root{--bg:#12131a;--card:#1c1e28;--tx:#e6e4da;--mut:#8a8fa3;--ac:#e8a34d;--ok:#7fb069;--ng:#c5524a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.7 "Hiragino Sans",sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding:24px 16px}
+h1{font-size:20px;letter-spacing:.1em}h1 span{color:var(--ac)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
+select,input,button,textarea{background:var(--card);color:var(--tx);border:1px solid #333748;border-radius:8px;padding:8px 12px;font:inherit}
+button{cursor:pointer}button:hover{border-color:var(--ac)}
+button.primary{background:var(--ac);color:#1a1408;border:none;font-weight:700}
+.card{background:var(--card);border-radius:12px;padding:16px 18px;margin:14px 0;border:1px solid #2a2d3c}
+.card h3{margin:0 0 8px;font-size:14px;color:var(--ac)}
+.card pre{white-space:pre-wrap;font:inherit;margin:0;max-height:420px;overflow-y:auto}
+.mut{color:var(--mut);font-size:13px}
+audio{width:100%;margin-top:8px}
+.verdict{display:flex;gap:6px;margin-top:10px;align-items:center;flex-wrap:wrap}
+.verdict input{flex:1;min-width:160px}
+.spin{display:inline-block;animation:r 1s linear infinite}@keyframes r{to{transform:rotate(360deg)}}
+.chords{font-family:ui-monospace,monospace;font-size:13px;color:var(--mut)}
+</style></head><body><div class="wrap">
+<h1>🎛 music <span>partner</span> <span class="mut">v0 local</span></h1>
+
+<div class="card"><h3>曲</h3>
+<div class="row">
+  <select id="songSel"></select>
+  <span class="mut">or 新規:</span>
+  <input id="newName" placeholder="曲名" size="12">
+  <input type="file" id="newFile" accept=".wav,.mp3,.m4a,.flac">
+  <button onclick="upload()">アップロード</button>
+</div>
+<div class="row">
+  <button class="primary" onclick="run('analyze')">解析</button>
+  <button onclick="run('describe')">言語化</button>
+  <button onclick="run('consult')">壁打ち</button>
+  <button onclick="run('similar')">類似マップ</button>
+  <span style="border-left:1px solid #333748;height:24px"></span>
+  <button onclick="run('vibe')">🎵 変奏</button>
+  <button onclick="run('texture')">🌫 テクスチャ</button>
+  <button onclick="run('part')">🥁 パーツ</button>
+  <label class="mut">strength <input id="strength" type="number" value="0.5" step="0.05" min="0.05" max="0.95" style="width:70px"></label>
+  <input id="prompt" placeholder="追加プロンプト(任意)" size="22">
+</div>
+<div class="mut">truth.yaml を songs/&lt;曲名&gt;/ に書き足すほど精度が上がる。生成系はACE-Stepサーバー起動が前提。</div>
+</div>
+
+<div id="out"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+async function loadSongs(){
+  const r=await fetch('/api/songs');const songs=await r.json();
+  $('songSel').innerHTML=songs.map(s=>`<option>${s.name}</option>`).join('')||'<option value="">(曲なし)</option>';
+}
+async function upload(){
+  const f=$('newFile').files[0],n=$('newName').value.trim();
+  if(!f||!n)return alert('曲名とファイルを指定して');
+  const fd=new FormData();fd.append('file',f);fd.append('name',n);
+  const r=await fetch('/api/songs',{method:'POST',body:fd});
+  if(!r.ok)return alert('失敗: '+await r.text());
+  await loadSongs();$('songSel').value=n;
+}
+function card(title,inner){
+  const el=document.createElement('div');el.className='card';
+  el.innerHTML=`<h3>${title}</h3>${inner}`;
+  $('out').prepend(el);return el;
+}
+function verdictUI(el,target){
+  const v=document.createElement('div');v.className='verdict';
+  v.innerHTML=`<span class="mut">採点:</span>
+    <button onclick="verdict(this,'${target}','○')">○ 刺さった</button>
+    <button onclick="verdict(this,'${target}','△')">△ 惜しい</button>
+    <button onclick="verdict(this,'${target}','×')">× 違う</button>
+    <input placeholder="ひとことメモ(任意)">`;
+  el.appendChild(v);
+}
+async function verdict(btn,target,rating){
+  const song=$('songSel').value;
+  const comment=btn.parentElement.querySelector('input').value;
+  const fd=new FormData();fd.append('target',target);fd.append('rating',rating);fd.append('comment',comment);
+  await fetch(`/api/songs/${song}/verdict`,{method:'POST',body:fd});
+  btn.parentElement.innerHTML=`<span class="mut">✔ 記録した (${rating}${comment?' — '+comment:''})</span>`;
+}
+async function run(action){
+  const song=$('songSel').value;if(!song)return alert('曲を選んで');
+  const q=new URLSearchParams({strength:$('strength').value,prompt:$('prompt').value});
+  const label={analyze:'解析',describe:'言語化',consult:'壁打ち',similar:'類似マップ',vibe:'変奏',texture:'テクスチャ',part:'パーツ'}[action];
+  const el=card(`${label} — ${song}`,`<span class="spin">⏳</span> <span class="mut">実行中… (生成系は数分かかる)</span>`);
+  const r=await fetch(`/api/songs/${song}/run/${action}?${q}`,{method:'POST'});
+  if(!r.ok){el.innerHTML+=`<pre>${await r.text()}</pre>`;return}
+  const {job}=await r.json();
+  const timer=setInterval(async()=>{
+    const s=await(await fetch(`/api/jobs/${job}`)).json();
+    if(s.status==='running')return;
+    clearInterval(timer);
+    if(s.status==='error'){el.innerHTML=`<h3>${label} — エラー</h3><pre>${s.error}</pre>`;return}
+    const res=s.result;
+    if(res.type==='analysis'){
+      el.innerHTML=`<h3>解析 — ${song}</h3>
+        <div><b>${res.tempo_bpm} BPM</b> ・ キー <b>${res.key.key}</b> <span class="mut">(ダイアトニック${res.key.diatonic_pct}%, V→I×${res.key.cadences_V_to_I})</span></div>
+        <div class="chords">${res.chords.map(c=>c.chord).join(' ')}</div>
+        <div class="mut">セクション: ${res.sections.map(x=>`${x.start}-${x.end}s(${x.energy_pct}%)`).join(' / ')}</div>`;
+    }else if(res.type==='markdown'){
+      el.innerHTML=`<h3>${res.name} — ${song}</h3><pre>${res.text}</pre>`;
+    }else if(res.type==='audio'){
+      el.innerHTML=`<h3>${res.name} — ${song}</h3><audio controls src="${res.url}"></audio>`;
+    }
+    verdictUI(el,label);
+  },2000);
+}
+loadSongs();
+</script></div></body></html>
