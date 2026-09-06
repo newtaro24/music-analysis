@@ -157,6 +157,19 @@ ACTIONS = {"analyze": do_analyze, "describe": do_describe, "consult": do_consult
 
 # ---- API ----
 
+@app.get("/api/status")
+def status():
+    import urllib.request
+    acestep = False
+    try:
+        urllib.request.urlopen("http://127.0.0.1:7865", timeout=1.5)
+        acestep = True
+    except Exception:
+        pass
+    gemini = bool(os.environ.get("GEMINI_API_KEY") or "GEMINI_API_KEY" in (ROOT / ".env").read_text() if (ROOT / ".env").exists() else False)
+    return {"acestep": acestep, "gemini": gemini}
+
+
 @app.get("/api/songs")
 def list_songs():
     out = []

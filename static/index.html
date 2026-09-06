@@ -1,57 +1,170 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>music partner</title>
+<title>Traper Pool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#12131a;--card:#1c1e28;--tx:#e6e4da;--mut:#8a8fa3;--ac:#e8a34d;--ok:#7fb069;--ng:#c5524a}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.7 "Hiragino Sans",sans-serif}
-.wrap{max-width:880px;margin:0 auto;padding:24px 16px}
-h1{font-size:20px;letter-spacing:.1em}h1 span{color:var(--ac)}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
-select,input,button,textarea{background:var(--card);color:var(--tx);border:1px solid #333748;border-radius:8px;padding:8px 12px;font:inherit}
-button{cursor:pointer}button:hover{border-color:var(--ac)}
-button.primary{background:var(--ac);color:#1a1408;border:none;font-weight:700}
-.card{background:var(--card);border-radius:12px;padding:16px 18px;margin:14px 0;border:1px solid #2a2d3c}
-.card h3{margin:0 0 8px;font-size:14px;color:var(--ac)}
-.card pre{white-space:pre-wrap;font:inherit;margin:0;max-height:420px;overflow-y:auto}
-.mut{color:var(--mut);font-size:13px}
-audio{width:100%;margin-top:8px}
-.verdict{display:flex;gap:6px;margin-top:10px;align-items:center;flex-wrap:wrap}
-.verdict input{flex:1;min-width:160px}
+:root{
+  --bg:#0d0e13;--bg2:#13151d;--card:#181b25;--line:#252938;--line2:#323850;
+  --tx:#e9e7df;--mut:#7d8296;--dim:#565b6e;
+  --amber:#e8a34d;--amber-dim:#8a6330;--teal:#5eb8a6;--rose:#c5524a;--ok:#7fb069;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:14.5px/1.75 "Hiragino Sans","Noto Sans JP",sans-serif}
+::selection{background:var(--amber);color:#14100a}
+
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.hwrap{max-width:920px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:14px}
+.logo{font-family:Archivo;font-weight:900;font-size:17px;letter-spacing:.14em}
+.logo em{color:var(--amber);font-style:normal}
+.logo small{display:block;font-family:var(--mono);font-weight:400;font-size:9.5px;letter-spacing:.3em;color:var(--dim)}
+.status{margin-left:auto;display:flex;gap:14px;font-family:var(--mono);font-size:11px;color:var(--mut)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--dim);margin-right:5px;vertical-align:1px}
+.dot.on{background:var(--ok);box-shadow:0 0 6px color-mix(in srgb,var(--ok) 60%,transparent)}
+
+/* ---------- deck ---------- */
+.wrap{max-width:920px;margin:0 auto;padding:22px 20px 80px}
+.deck{background:linear-gradient(180deg,var(--bg2),var(--card));border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.songrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.songrow label{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mut)}
+#songSel{background:var(--bg);border:1px solid var(--line2);color:var(--tx);border-radius:10px;
+  padding:10px 40px 10px 14px;font-size:16px;font-weight:600;appearance:none;
+  background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"><path d="M0 0l5 6 5-6z" fill="%237d8296"/></svg>');
+  background-repeat:no-repeat;background-position:right 14px center}
+#songSel:focus{outline:none;border-color:var(--amber)}
+.truthbadge{font-family:var(--mono);font-size:10.5px;padding:3px 9px;border-radius:99px;border:1px solid var(--line2);color:var(--mut)}
+.truthbadge.on{color:var(--teal);border-color:color-mix(in srgb,var(--teal) 40%,transparent)}
+.addbtn{margin-left:auto;background:none;border:1px dashed var(--line2);color:var(--mut);border-radius:10px;padding:9px 14px;cursor:pointer;font:inherit;font-size:13px}
+.addbtn:hover{color:var(--tx);border-color:var(--mut)}
+.upform{display:none;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.upform.open{display:flex}
+.upform input[type=text]{background:var(--bg);border:1px solid var(--line2);color:var(--tx);border-radius:8px;padding:8px 12px;font:inherit}
+.upform input[type=file]{color:var(--mut);font-size:12.5px}
+
+.groups{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}
+@media(max-width:640px){.groups{grid-template-columns:1fr}}
+.group h4{margin:0 0 10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.25em;color:var(--dim);font-weight:500}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.act{background:var(--bg);border:1px solid var(--line2);color:var(--tx);border-radius:10px;
+  padding:9px 15px;font:inherit;font-size:13.5px;cursor:pointer;transition:all .15s;position:relative}
+.act:hover:not(:disabled){border-color:var(--amber);transform:translateY(-1px)}
+.act:disabled{opacity:.35;cursor:default}
+.act.running{border-color:var(--amber);color:var(--amber)}
+.act.running::after{content:"";position:absolute;inset:auto 8px 4px 8px;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--amber),transparent);animation:sweep 1.2s linear infinite;background-size:200% 100%}
+@keyframes sweep{to{background-position:-200% 0}}
+.gen .act{border-color:color-mix(in srgb,var(--teal) 30%,var(--line2))}
+.gen .act:hover:not(:disabled){border-color:var(--teal)}
+.gen .act.running{border-color:var(--teal);color:var(--teal)}
+.params{display:flex;gap:10px;margin-top:10px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--mut)}
+.params input[type=range]{accent-color:var(--teal);width:110px}
+.params input[type=text]{background:var(--bg);border:1px solid var(--line2);color:var(--tx);border-radius:8px;padding:6px 10px;font:inherit;font-size:12.5px;flex:1;min-width:150px}
+.params .val{font-family:var(--mono);color:var(--teal);width:34px}
+
+/* ---------- feed ---------- */
+.feed{margin-top:26px;display:flex;flex-direction:column;gap:14px}
+.item{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:12px;padding:16px 18px;animation:in .25s ease}
+.item.gen{border-left-color:var(--teal)}
+.item.err{border-left-color:var(--rose)}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+.ihead{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
+.ihead b{font-size:13.5px}
+.ihead .t{font-family:var(--mono);font-size:10.5px;color:var(--dim);margin-left:auto}
+.item pre{white-space:pre-wrap;font:inherit;margin:0;max-height:440px;overflow-y:auto}
+.item pre.mono{font-family:var(--mono);font-size:12.5px;line-height:1.9;color:#cfd3c3}
+.keyline{font-size:15px;margin-bottom:6px}
+.keyline b{color:var(--amber)}
+audio{width:100%;margin-top:8px;height:38px}
+.copybtn{margin-top:8px;background:none;border:1px solid var(--line2);color:var(--mut);border-radius:8px;padding:5px 12px;font:inherit;font-size:12px;cursor:pointer}
+.copybtn:hover{color:var(--tx);border-color:var(--mut)}
+.verdict{display:flex;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);align-items:center;flex-wrap:wrap}
+.verdict span.lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--dim)}
+.vbtn{background:none;border:1px solid var(--line2);border-radius:8px;color:var(--tx);padding:5px 13px;font:inherit;font-size:12.5px;cursor:pointer}
+.vbtn:hover{border-color:var(--amber)}
+.verdict input{flex:1;min-width:150px;background:var(--bg);border:1px solid var(--line2);color:var(--tx);border-radius:8px;padding:6px 10px;font:inherit;font-size:12.5px}
+.empty{text-align:center;color:var(--dim);padding:50px 0;font-size:13px}
 .spin{display:inline-block;animation:r 1s linear infinite}@keyframes r{to{transform:rotate(360deg)}}
-.chords{font-family:ui-monospace,monospace;font-size:13px;color:var(--mut)}
-</style></head><body><div class="wrap">
-<h1>🎛 music <span>partner</span> <span class="mut">v0 local</span></h1>
+</style></head><body>
 
-<div class="card"><h3>曲</h3>
-<div class="row">
-  <select id="songSel"></select>
-  <span class="mut">or 新規:</span>
-  <input id="newName" placeholder="曲名" size="12">
-  <input type="file" id="newFile" accept=".wav,.mp3,.m4a,.flac">
-  <button onclick="upload()">アップロード</button>
-</div>
-<div class="row">
-  <button class="primary" onclick="run('analyze')">解析</button>
-  <button onclick="run('describe')">言語化</button>
-  <button onclick="run('consult')">壁打ち</button>
-  <button onclick="run('similar')">類似マップ</button>
-  <span style="border-left:1px solid #333748;height:24px"></span>
-  <button onclick="run('vibe')">🎵 変奏</button>
-  <button onclick="run('texture')">🌫 テクスチャ</button>
-  <button onclick="run('part')">🥁 パーツ</button>
-  <label class="mut">strength <input id="strength" type="number" value="0.5" step="0.05" min="0.05" max="0.95" style="width:70px"></label>
-  <input id="prompt" placeholder="追加プロンプト(任意)" size="22">
-</div>
-<div class="mut">truth.yaml を songs/&lt;曲名&gt;/ に書き足すほど精度が上がる。生成系はACE-Stepサーバー起動が前提。</div>
+<header><div class="hwrap">
+  <div class="logo">TRAPER <em>POOL</em><small>MUSIC PARTNER STUDIO</small></div>
+  <div class="status">
+    <span id="stGem"><span class="dot"></span>GEMINI</span>
+    <span id="stAce"><span class="dot"></span>ACE-STEP</span>
+  </div>
+</div></header>
+
+<div class="wrap">
+<div class="deck">
+  <div class="songrow">
+    <label>SONG</label>
+    <select id="songSel" onchange="songChanged()"></select>
+    <span id="truthBadge" class="truthbadge">truth なし</span>
+    <button class="addbtn" onclick="document.getElementById('upform').classList.toggle('open')">＋ 曲を追加</button>
+  </div>
+  <div class="upform" id="upform">
+    <input type="text" id="newName" placeholder="曲名">
+    <input type="file" id="newFile" accept=".wav,.mp3,.m4a,.flac">
+    <button class="act" onclick="upload()">アップロード</button>
+  </div>
+
+  <div class="groups">
+    <div class="group">
+      <h4>UNDERSTAND — 理解する</h4>
+      <div class="acts">
+        <button class="act" data-a="analyze"  onclick="run('analyze')">解析</button>
+        <button class="act" data-a="describe" onclick="run('describe')">言語化</button>
+        <button class="act" data-a="consult"  onclick="run('consult')">壁打ち</button>
+        <button class="act" data-a="similar"  onclick="run('similar')">類似マップ</button>
+      </div>
+    </div>
+    <div class="group gen">
+      <h4>SKETCH — 音を作る</h4>
+      <div class="acts">
+        <button class="act" data-a="vibe"    onclick="run('vibe')">変奏</button>
+        <button class="act" data-a="texture" onclick="run('texture')">テクスチャ</button>
+        <button class="act" data-a="part"    onclick="run('part')">パーツ抽出</button>
+      </div>
+      <div class="params">
+        <span>元曲への忠実度</span>
+        <input type="range" id="strength" min="0.05" max="0.95" step="0.05" value="0.5"
+          oninput="document.getElementById('sval').textContent=this.value">
+        <span class="val" id="sval">0.5</span>
+        <input type="text" id="prompt" placeholder="方向性を言葉で足す (任意)">
+      </div>
+    </div>
+  </div>
 </div>
 
-<div id="out"></div>
+<div class="feed" id="feed"><div class="empty">結果はここに流れてくる</div></div>
+</div>
 
 <script>
 const $=id=>document.getElementById(id);
+const LABEL={analyze:'解析',describe:'言語化',consult:'壁打ち',similar:'類似マップ',vibe:'変奏スケッチ',texture:'テクスチャ',part:'パーツ抽出'};
+const GEN=new Set(['vibe','texture','part']);
+let songs=[];
+
 async function loadSongs(){
-  const r=await fetch('/api/songs');const songs=await r.json();
-  $('songSel').innerHTML=songs.map(s=>`<option>${s.name}</option>`).join('')||'<option value="">(曲なし)</option>';
+  songs=await(await fetch('/api/songs')).json();
+  $('songSel').innerHTML=songs.map(s=>`<option>${s.name}</option>`).join('')||'<option value="">曲がない — 追加して</option>';
+  songChanged();
+}
+function songChanged(){
+  const s=songs.find(x=>x.name===$('songSel').value);
+  const b=$('truthBadge');
+  b.textContent=s&&s.has_truth?'truth あり':'truth なし';
+  b.classList.toggle('on',!!(s&&s.has_truth));
+}
+async function refreshStatus(){
+  try{
+    const st=await(await fetch('/api/status')).json();
+    $('stAce').querySelector('.dot').classList.toggle('on',st.acestep);
+    $('stGem').querySelector('.dot').classList.toggle('on',st.gemini);
+  }catch(e){}
 }
 async function upload(){
   const f=$('newFile').files[0],n=$('newName').value.trim();
@@ -59,57 +172,66 @@ async function upload(){
   const fd=new FormData();fd.append('file',f);fd.append('name',n);
   const r=await fetch('/api/songs',{method:'POST',body:fd});
   if(!r.ok)return alert('失敗: '+await r.text());
-  await loadSongs();$('songSel').value=n;
+  await loadSongs();$('songSel').value=n;songChanged();
+  $('upform').classList.remove('open');
 }
-function card(title,inner){
-  const el=document.createElement('div');el.className='card';
-  el.innerHTML=`<h3>${title}</h3>${inner}`;
-  $('out').prepend(el);return el;
+function ts(){return new Date().toTimeString().slice(0,5)}
+function addItem(action,song){
+  if($('feed').querySelector('.empty'))$('feed').innerHTML='';
+  const el=document.createElement('div');
+  el.className='item'+(GEN.has(action)?' gen':'');
+  el.innerHTML=`<div class="ihead"><b>${LABEL[action]}</b><span class="mut" style="color:var(--dim);font-size:12px">${song}</span><span class="t">${ts()}</span></div>
+    <div class="body"><span class="spin">◌</span> <span style="color:var(--mut);font-size:13px">実行中… <span class="el">0</span>秒 ${GEN.has(action)?'(生成は数分かかる)':''}</span></div>`;
+  $('feed').prepend(el);
+  const t0=Date.now();
+  el._timer=setInterval(()=>{const s=el.querySelector('.el');if(s)s.textContent=Math.round((Date.now()-t0)/1000)},1000);
+  return el;
 }
 function verdictUI(el,target){
   const v=document.createElement('div');v.className='verdict';
-  v.innerHTML=`<span class="mut">採点:</span>
-    <button onclick="verdict(this,'${target}','○')">○ 刺さった</button>
-    <button onclick="verdict(this,'${target}','△')">△ 惜しい</button>
-    <button onclick="verdict(this,'${target}','×')">× 違う</button>
-    <input placeholder="ひとことメモ(任意)">`;
+  v.innerHTML=`<span class="lbl">VERDICT</span>
+    <button class="vbtn" onclick="verdict(this,'${target}','○')">○ 刺さった</button>
+    <button class="vbtn" onclick="verdict(this,'${target}','△')">△ 惜しい</button>
+    <button class="vbtn" onclick="verdict(this,'${target}','×')">× 違う</button>
+    <input placeholder="ひとこと (任意)">`;
   el.appendChild(v);
 }
 async function verdict(btn,target,rating){
-  const song=$('songSel').value;
-  const comment=btn.parentElement.querySelector('input').value;
-  const fd=new FormData();fd.append('target',target);fd.append('rating',rating);fd.append('comment',comment);
-  await fetch(`/api/songs/${song}/verdict`,{method:'POST',body:fd});
-  btn.parentElement.innerHTML=`<span class="mut">✔ 記録した (${rating}${comment?' — '+comment:''})</span>`;
+  const fd=new FormData();
+  fd.append('target',target);fd.append('rating',rating);
+  fd.append('comment',btn.parentElement.querySelector('input').value);
+  await fetch(`/api/songs/${$('songSel').value}/verdict`,{method:'POST',body:fd});
+  btn.parentElement.innerHTML=`<span class="lbl" style="color:var(--ok)">✔ RECORDED — ${rating}</span>`;
 }
 async function run(action){
   const song=$('songSel').value;if(!song)return alert('曲を選んで');
+  const btn=document.querySelector(`[data-a=${action}]`);
+  btn.disabled=true;btn.classList.add('running');
+  const el=addItem(action,song);
+  const done=()=>{btn.disabled=false;btn.classList.remove('running');clearInterval(el._timer)};
   const q=new URLSearchParams({strength:$('strength').value,prompt:$('prompt').value});
-  const label={analyze:'解析',describe:'言語化',consult:'壁打ち',similar:'類似マップ',vibe:'変奏',texture:'テクスチャ',part:'パーツ'}[action];
-  const el=card(`${label} — ${song}`,`<span class="spin">⏳</span> <span class="mut">実行中… (生成系は数分かかる)</span>`);
   const r=await fetch(`/api/songs/${song}/run/${action}?${q}`,{method:'POST'});
-  if(!r.ok){el.innerHTML+=`<pre>${await r.text()}</pre>`;return}
+  if(!r.ok){el.classList.add('err');el.querySelector('.body').innerHTML=`<pre>${await r.text()}</pre>`;done();return}
   const {job}=await r.json();
   const timer=setInterval(async()=>{
     const s=await(await fetch(`/api/jobs/${job}`)).json();
     if(s.status==='running')return;
-    clearInterval(timer);
-    if(s.status==='error'){el.innerHTML=`<h3>${label} — エラー</h3><pre>${s.error}</pre>`;return}
+    clearInterval(timer);done();
+    const body=el.querySelector('.body');
+    if(s.status==='error'){el.classList.add('err');body.innerHTML=`<pre>${s.error}</pre>`;return}
     const res=s.result;
     if(res.type==='analysis'){
-      el.innerHTML=`<h3>解析 — ${song}</h3>
-        <div><b>${res.tempo_bpm} BPM</b> ・ キー <b>${res.key.key}</b> <span class="mut">(ダイアトニック${res.key.diatonic_pct}%, V→I×${res.key.cadences_V_to_I})</span></div>
-        <div class="chords">${res.chords.map(c=>c.chord).join(' ')}</div>
-        <div class="mut">セクション: ${res.sections.map(x=>`${x.start}-${x.end}s(${x.energy_pct}%)`).join(' / ')}</div>
-        ${res.chart?`<pre class="chords" style="margin-top:10px;border-top:1px solid #333748;padding-top:10px">${res.chart}</pre>
-        <button onclick="navigator.clipboard.writeText(this.previousElementSibling.innerText).then(()=>this.textContent='✔ コピーした')">📋 コード表をコピー</button>`:''}`;
+      body.innerHTML=`<div class="keyline"><b>${res.tempo_bpm} BPM</b> ・ キー <b>${res.key.key}</b>
+        <span style="color:var(--dim);font-size:12px">(ダイアトニック${res.key.diatonic_pct}% / V→I×${res.key.cadences_V_to_I})</span></div>
+        ${res.chart?`<pre class="mono">${res.chart}</pre>
+        <button class="copybtn" onclick="navigator.clipboard.writeText(this.previousElementSibling.innerText).then(()=>this.textContent='✔ コピーした')">📋 コード表をコピー</button>`:''}`;
     }else if(res.type==='markdown'){
-      el.innerHTML=`<h3>${res.name} — ${song}</h3><pre>${res.text}</pre>`;
+      body.innerHTML=`<pre>${res.text}</pre>`;
     }else if(res.type==='audio'){
-      el.innerHTML=`<h3>${res.name} — ${song}</h3><audio controls src="${res.url}"></audio>`;
+      body.innerHTML=`<audio controls src="${res.url}"></audio>`;
     }
-    verdictUI(el,label);
+    verdictUI(el,LABEL[action]);
   },2000);
 }
-loadSongs();
-</script></div></body></html>
+loadSongs();refreshStatus();setInterval(refreshStatus,15000);
+</script></body></html>
