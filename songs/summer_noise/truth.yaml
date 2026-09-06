@@ -1,0 +1,26 @@
+# 正解データ (本人提供 2026-09-02)
+title: summer_noise_arragement (仮題)
+audio: audio.mp3   # mp3 160kbps。可能ならDAWから非圧縮wavに差し替え推奨
+vocal: male        # AIは「女性ウィスパー」と誤認した実績あり
+key: Bb major
+tempo:
+  felt_bpm: 64.6       # ハーフタイムの聴感(本人確認済み)
+  grid_bpm: 129.2      # ビートトラッカーの検出値(倍テンポ解釈)
+guitar:
+  capo: 3
+  # progressionのshapesはカポ基準、soundingは実音
+progression:
+  A_and_chorus:        # Aメロ、サビ
+    shapes:   [GM7, Em7, CM7, "Am7 D"]
+    sounding: [BbM7, Gm7, EbM7, "Cm7 F"]
+  B:                   # Bメロ
+    shapes:   ["F#m7b5 B7", "Em7 A7", CM7, "Am7 D"]
+    sounding: ["Am7b5 D7", "Gm7 C7", EbM7, "Cm7 F"]
+  last_chorus_2nd_half:
+    shapes:   [GM7onE, BmonD, "C#m7b5", "Am7 D"]
+    sounding: [BbM7onG, DmonF, Em7b5, "Cm7 F"]
+  outro:
+    shapes:   [GM7, Em7, CM7, "Am7 D"]
+    sounding: [BbM7, Gm7, EbM7, "Cm7 F"]
+sections: # タイムスタンプは未確定(AI聴取の推定、本人未確認)
+  note: "サビ入り約0:30-0:33、間奏入り約0:57-0:59は数値解析とAI聴取が一致"

@@ -1,0 +1,440 @@
+{
+ "measure": {
+  "source": "audio.mp3",
+  "duration_sec": 161.3,
+  "tempo_bpm": 129.2,
+  "key": {
+   "key": "C minor",
+   "confidence": 0.68,
+   "runner_up": "C major",
+   "runner_up_confidence": 0.575
+  },
+  "n_sections_detected": 11,
+  "sections": [
+   {
+    "start": 0.1,
+    "end": 33.5,
+    "bars_approx": 18.0,
+    "rms_db": -16.8,
+    "brightness_hz": 1457,
+    "onset_density": 1.72,
+    "bands_db": {
+     "low": 26.6,
+     "low_mid": 21.0,
+     "mid": 7.3,
+     "high_mid": -12.0,
+     "high": -17.2
+    },
+    "energy_pct": 85
+   },
+   {
+    "start": 33.5,
+    "end": 37.2,
+    "bars_approx": 2.0,
+    "rms_db": -16.3,
+    "brightness_hz": 1637,
+    "onset_density": 1.7,
+    "bands_db": {
+     "low": 30.2,
+     "low_mid": 19.4,
+     "mid": 9.1,
+     "high_mid": -11.6,
+     "high": -12.8
+    },
+    "energy_pct": 90
+   },
+   {
+    "start": 37.2,
+    "end": 40.8,
+    "bars_approx": 2.0,
+    "rms_db": -16.0,
+    "brightness_hz": 1420,
+    "onset_density": 1.63,
+    "bands_db": {
+     "low": 29.4,
+     "low_mid": 23.8,
+     "mid": 7.3,
+     "high_mid": -11.2,
+     "high": -14.8
+    },
+    "energy_pct": 93
+   },
+   {
+    "start": 40.8,
+    "end": 51.4,
+    "bars_approx": 5.7,
+    "rms_db": -15.8,
+    "brightness_hz": 1524,
+    "onset_density": 1.7,
+    "bands_db": {
+     "low": 28.6,
+     "low_mid": 22.6,
+     "mid": 9.4,
+     "high_mid": -10.8,
+     "high": -13.3
+    },
+    "energy_pct": 95
+   },
+   {
+    "start": 51.4,
+    "end": 56.9,
+    "bars_approx": 3.0,
+    "rms_db": -16.6,
+    "brightness_hz": 1531,
+    "onset_density": 1.69,
+    "bands_db": {
+     "low": 28.7,
+     "low_mid": 22.2,
+     "mid": 7.0,
+     "high_mid": -11.4,
+     "high": -14.0
+    },
+    "energy_pct": 87
+   },
+   {
+    "start": 56.9,
+    "end": 95.8,
+    "bars_approx": 21.0,
+    "rms_db": -16.8,
+    "brightness_hz": 1351,
+    "onset_density": 1.8,
+    "bands_db": {
+     "low": 26.5,
+     "low_mid": 20.9,
+     "mid": 8.4,
+     "high_mid": -11.4,
+     "high": -19.7
+    },
+    "energy_pct": 85
+   },
+   {
+    "start": 95.8,
+    "end": 99.0,
+    "bars_approx": 1.7,
+    "rms_db": -15.4,
+    "brightness_hz": 1415,
+    "onset_density": 1.67,
+    "bands_db": {
+     "low": 30.2,
+     "low_mid": 23.8,
+     "mid": 8.3,
+     "high_mid": -10.8,
+     "high": -14.4
+    },
+    "energy_pct": 100
+   },
+   {
+    "start": 99.0,
+    "end": 106.8,
+    "bars_approx": 4.2,
+    "rms_db": -16.2,
+    "brightness_hz": 1388,
+    "onset_density": 1.7,
+    "bands_db": {
+     "low": 29.0,
+     "low_mid": 22.3,
+     "mid": 8.5,
+     "high_mid": -11.6,
+     "high": -16.0
+    },
+    "energy_pct": 91
+   },
+   {
+    "start": 106.8,
+    "end": 110.5,
+    "bars_approx": 2.0,
+    "rms_db": -16.1,
+    "brightness_hz": 1553,
+    "onset_density": 1.68,
+    "bands_db": {
+     "low": 29.7,
+     "low_mid": 21.0,
+     "mid": 11.2,
+     "high_mid": -10.9,
+     "high": -13.4
+    },
+    "energy_pct": 92
+   },
+   {
+    "start": 110.5,
+    "end": 115.9,
+    "bars_approx": 3.0,
+    "rms_db": -16.1,
+    "brightness_hz": 1441,
+    "onset_density": 1.67,
+    "bands_db": {
+     "low": 29.8,
+     "low_mid": 22.4,
+     "mid": 9.7,
+     "high_mid": -10.3,
+     "high": -15.4
+    },
+    "energy_pct": 92
+   },
+   {
+    "start": 115.9,
+    "end": 161.3,
+    "bars_approx": 24.4,
+    "rms_db": -17.1,
+    "brightness_hz": 1389,
+    "onset_density": 1.81,
+    "bands_db": {
+     "low": 27.8,
+     "low_mid": 20.5,
+     "mid": 6.8,
+     "high_mid": -14.8,
+     "high": -18.4
+    },
+    "energy_pct": 82
+   }
+  ]
+ },
+ "key": {
+  "best": {
+   "key": "A# major",
+   "diatonic_pct": 97,
+   "cadences_V_to_I": 5,
+   "score": 1.2245815251084933
+  },
+  "runner_up": {
+   "key": "F major",
+   "diatonic_pct": 61,
+   "cadences_V_to_I": 8,
+   "score": 1.0081835089894606
+  }
+ },
+ "chords": [
+  {
+   "t": "0-4s",
+   "chord": "A#"
+  },
+  {
+   "t": "4-8s",
+   "chord": "Gm"
+  },
+  {
+   "t": "8-12s",
+   "chord": "D#"
+  },
+  {
+   "t": "12-13s",
+   "chord": "Cm"
+  },
+  {
+   "t": "13-15s",
+   "chord": "F"
+  },
+  {
+   "t": "15-19s",
+   "chord": "A#"
+  },
+  {
+   "t": "19-22s",
+   "chord": "Gm"
+  },
+  {
+   "t": "22-26s",
+   "chord": "D#"
+  },
+  {
+   "t": "26-28s",
+   "chord": "Cm"
+  },
+  {
+   "t": "28-29s",
+   "chord": "F"
+  },
+  {
+   "t": "29-33s",
+   "chord": "A#"
+  },
+  {
+   "t": "33-37s",
+   "chord": "Gm"
+  },
+  {
+   "t": "37-40s",
+   "chord": "D#"
+  },
+  {
+   "t": "40-42s",
+   "chord": "Cm"
+  },
+  {
+   "t": "42-44s",
+   "chord": "A#"
+  },
+  {
+   "t": "44-45s",
+   "chord": "Gm"
+  },
+  {
+   "t": "45-48s",
+   "chord": "A#"
+  },
+  {
+   "t": "48-52s",
+   "chord": "F"
+  },
+  {
+   "t": "52-52s",
+   "chord": "Gm"
+  },
+  {
+   "t": "52-56s",
+   "chord": "D#"
+  },
+  {
+   "t": "56-57s",
+   "chord": "Cm"
+  },
+  {
+   "t": "57-62s",
+   "chord": "A#"
+  },
+  {
+   "t": "62-66s",
+   "chord": "Gm"
+  },
+  {
+   "t": "66-70s",
+   "chord": "D#"
+  },
+  {
+   "t": "70-72s",
+   "chord": "Cm"
+  },
+  {
+   "t": "72-74s",
+   "chord": "F"
+  },
+  {
+   "t": "74-81s",
+   "chord": "A#"
+  },
+  {
+   "t": "81-84s",
+   "chord": "D#"
+  },
+  {
+   "t": "84-86s",
+   "chord": "Cm"
+  },
+  {
+   "t": "86-88s",
+   "chord": "A#"
+  },
+  {
+   "t": "88-90s",
+   "chord": "Cm"
+  },
+  {
+   "t": "90-92s",
+   "chord": "D"
+  },
+  {
+   "t": "92-93s",
+   "chord": "A#"
+  },
+  {
+   "t": "93-95s",
+   "chord": "C"
+  },
+  {
+   "t": "95-99s",
+   "chord": "D#"
+  },
+  {
+   "t": "99-101s",
+   "chord": "Cm"
+  },
+  {
+   "t": "101-103s",
+   "chord": "F"
+  },
+  {
+   "t": "103-106s",
+   "chord": "A#"
+  },
+  {
+   "t": "106-110s",
+   "chord": "Gm"
+  },
+  {
+   "t": "110-114s",
+   "chord": "D#"
+  },
+  {
+   "t": "114-116s",
+   "chord": "Cm"
+  },
+  {
+   "t": "116-117s",
+   "chord": "F"
+  },
+  {
+   "t": "117-121s",
+   "chord": "Gm"
+  },
+  {
+   "t": "121-122s",
+   "chord": "A#"
+  },
+  {
+   "t": "122-125s",
+   "chord": "F"
+  },
+  {
+   "t": "125-128s",
+   "chord": "D#"
+  },
+  {
+   "t": "128-130s",
+   "chord": "Cm"
+  },
+  {
+   "t": "130-132s",
+   "chord": "F"
+  },
+  {
+   "t": "132-136s",
+   "chord": "A#"
+  },
+  {
+   "t": "136-139s",
+   "chord": "Gm"
+  },
+  {
+   "t": "139-143s",
+   "chord": "D#"
+  },
+  {
+   "t": "143-145s",
+   "chord": "Cm"
+  },
+  {
+   "t": "145-147s",
+   "chord": "F"
+  },
+  {
+   "t": "147-152s",
+   "chord": "Gm"
+  },
+  {
+   "t": "152-154s",
+   "chord": "A#"
+  },
+  {
+   "t": "154-158s",
+   "chord": "D#"
+  },
+  {
+   "t": "158-160s",
+   "chord": "Cm"
+  },
+  {
+   "t": "160-161s",
+   "chord": "F"
+  }
+ ]
+}
