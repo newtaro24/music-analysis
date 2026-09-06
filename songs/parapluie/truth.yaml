@@ -1,0 +1,7 @@
+# 正解データ(分かる範囲で埋めると精度が上がる)
+title: parapluie
+vocal:        # male / female / none
+key:          # 例 Bb major
+guitar:
+  capo:       # 例 3
+progression:  # 例 [BbM7, Gm7, EbM7, 'Cm7 F']

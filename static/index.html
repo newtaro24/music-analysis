@@ -100,7 +100,9 @@ async function run(action){
       el.innerHTML=`<h3>解析 — ${song}</h3>
         <div><b>${res.tempo_bpm} BPM</b> ・ キー <b>${res.key.key}</b> <span class="mut">(ダイアトニック${res.key.diatonic_pct}%, V→I×${res.key.cadences_V_to_I})</span></div>
         <div class="chords">${res.chords.map(c=>c.chord).join(' ')}</div>
-        <div class="mut">セクション: ${res.sections.map(x=>`${x.start}-${x.end}s(${x.energy_pct}%)`).join(' / ')}</div>`;
+        <div class="mut">セクション: ${res.sections.map(x=>`${x.start}-${x.end}s(${x.energy_pct}%)`).join(' / ')}</div>
+        ${res.chart?`<pre class="chords" style="margin-top:10px;border-top:1px solid #333748;padding-top:10px">${res.chart}</pre>
+        <button onclick="navigator.clipboard.writeText(this.previousElementSibling.innerText).then(()=>this.textContent='✔ コピーした')">📋 コード表をコピー</button>`:''}`;
     }else if(res.type==='markdown'){
       el.innerHTML=`<h3>${res.name} — ${song}</h3><pre>${res.text}</pre>`;
     }else if(res.type==='audio'){
