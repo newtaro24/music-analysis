@@ -66,6 +66,44 @@ def _submit(fn, *args) -> str:
 
 # ---- 各アクションの実体 (既存モジュールを呼ぶだけ) ----
 
+
+NOTE12 = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+
+
+def _shape(chord: str, capo: int) -> str:
+    """実音コード名をカポ位置のシェイプ表記に移調 (例 capo3: A#→G)"""
+    m = re.match(r"([A-G]#?)(.*)", chord)
+    if not m:
+        return chord
+    return NOTE12[(NOTE12.index(m.group(1)) - capo) % 12] + m.group(2)
+
+
+def _section_chart(m: dict, chords: list, truth_path: Path) -> str:
+    """セクション境界×コード検出 → メンバーに渡せるコピペ用コード表"""
+    capo = None
+    if truth_path.exists():
+        try:
+            import yaml
+            capo = ((yaml.safe_load(truth_path.read_text()) or {}).get("guitar") or {}).get("capo")
+        except Exception:
+            pass
+    mmss = lambda t: f"{int(t)//60}:{int(t)%60:02d}"
+    lines = []
+    for i, s in enumerate(m["sections"], 1):
+        segs = [c for c in chords if s["start"] <= (c["start"] + c["end"]) / 2 < s["end"]]
+        seq = []
+        for c in segs:
+            lab = c["chord"].replace(":maj", "").replace(":min", "m")
+            if not seq or seq[-1] != lab:
+                seq.append(lab)
+        if not seq:
+            continue
+        lines.append(f"[S{i}  {mmss(s['start'])}-{mmss(s['end'])}  {s['bars_approx']}小節]")
+        lines.append("  " + " | ".join(seq))
+        if capo:
+            lines.append(f"  capo{capo}: " + " | ".join(_shape(x, capo) for x in seq))
+    return "\n".join(lines)
+
 def do_analyze(audio: Path) -> dict:
     from analyze_mix import analyze
     from describe_v2 import get_chords, infer_key, summarize_chords
@@ -73,7 +111,8 @@ def do_analyze(audio: Path) -> dict:
     chords = get_chords(str(audio))
     key = infer_key(chords)
     return {"type": "analysis", "tempo_bpm": m["tempo_bpm"], "key": key["best"],
-            "sections": m["sections"], "chords": summarize_chords(chords)[:60]}
+            "sections": m["sections"], "chords": summarize_chords(chords)[:60],
+            "chart": _section_chart(m, chords, audio.parent / "truth.yaml")}
 
 
 def do_describe(audio: Path) -> dict:
